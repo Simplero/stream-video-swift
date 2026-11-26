@@ -22,6 +22,13 @@ final class WebRTCAudioSessionWatchdog {
     private let disposableBag = DisposableBag()
 
     init() {
+        #if os(macOS)
+        // macOS has no audio session: the audio device module opens the
+        // devices itself, so audio is ready as soon as the call joins.
+        // Waiting for it would force a rejoin every few seconds.
+        subject.send(true)
+        return
+        #endif
         let isActivePublisher = audioStore
             .publisher(\.isActive)
             .removeDuplicates()
