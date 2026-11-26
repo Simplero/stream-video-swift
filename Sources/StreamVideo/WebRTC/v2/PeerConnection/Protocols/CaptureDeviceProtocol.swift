@@ -33,6 +33,7 @@ protocol CaptureDeviceProtocol: AnyObject, Sendable {
 /// Extend `AVCaptureDevice` to conform to `CaptureDeviceProtocol`.
 extension AVCaptureDevice: CaptureDeviceProtocol {}
 
+#if os(iOS) // SPIKE macOS: SystemPressureState is iOS-only
 /// A capture device that can report system pressure updates and accept
 /// throttled frame rate changes.
 protocol SystemPressureCaptureDevice: CaptureDeviceProtocol {
@@ -76,3 +77,4 @@ extension AVCaptureDevice: SystemPressureCaptureDevice {
         activeVideoMaxFrameDuration = duration
     }
 }
+#endif

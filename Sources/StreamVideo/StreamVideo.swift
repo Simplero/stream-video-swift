@@ -570,7 +570,13 @@ public class StreamVideo: ObservableObject, @unchecked Sendable {
             eventNotificationCenter: eventNotificationCenter,
             sessionConfiguration: config,
             connectPayloadProvider: { [weak self] in self?.makeConnectPayload() },
-            hasActiveCall: { InjectedValues[\.callKitService].callCount > 0 }
+            hasActiveCall: {
+                #if os(iOS)
+                InjectedValues[\.callKitService].callCount > 0
+                #else
+                false // SPIKE macOS: no CallKit
+                #endif
+            }
         )
 
         // The publisher fires on StreamCore's callback thread; hop to main since

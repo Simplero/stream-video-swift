@@ -2,6 +2,8 @@
 // Copyright © 2026 Stream.io Inc. All rights reserved.
 //
 
+#if os(iOS) // SPIKE macOS: CallKit (CXProvider) and PushKit VoIP are iOS-only
+
 import CallKit
 import Foundation
 
@@ -32,3 +34,4 @@ extension CallKitMissingPermissionPolicy {
         }
     }
 }
+#endif

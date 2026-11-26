@@ -2,8 +2,17 @@
 // Copyright © 2026 Stream.io Inc. All rights reserved.
 //
 
+import AVFoundation
 import Foundation
 import StreamWebRTC
+
+#if os(macOS) // SPIKE: module-local stand-in on macOS
+extension AVAudioSession.RouteChangeReason: Encodable {}
+#elseif compiler(>=6.0)
+extension AVAudioSession.RouteChangeReason: @retroactive Encodable {}
+#else
+extension AVAudioSession.RouteChangeReason: Encodable {}
+#endif
 
 #if compiler(>=6.0)
 extension RTCSignalingState: @retroactive Encodable {}
@@ -19,7 +28,6 @@ extension RTCSessionDescription: @retroactive Encodable {}
 extension RTCConfiguration: @retroactive Encodable {}
 extension RTCIceServer: @retroactive Encodable {}
 extension RTCCryptoOptions: @retroactive Encodable {}
-extension AVAudioSession.RouteChangeReason: @retroactive Encodable {}
 #else
 extension RTCSignalingState: Encodable {}
 extension RTCMediaStream: Encodable {}
@@ -34,7 +42,6 @@ extension RTCSessionDescription: Encodable {}
 extension RTCConfiguration: Encodable {}
 extension RTCIceServer: Encodable {}
 extension RTCCryptoOptions: Encodable {}
-extension AVAudioSession.RouteChangeReason: Encodable {}
 #endif
 
 extension RTCSignalingState {

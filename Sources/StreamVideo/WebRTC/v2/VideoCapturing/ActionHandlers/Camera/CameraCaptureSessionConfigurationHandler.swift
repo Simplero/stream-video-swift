@@ -30,7 +30,9 @@ final class CameraCaptureSessionConfigurationHandler: StreamVideoCapturerActionH
     }
 
     private func configureIfNeeded(_ captureSession: AVCaptureSession) {
+        #if os(iOS)
         captureSession.usesApplicationAudioSession = true
         captureSession.sessionPreset = .inputPriority
+        #endif
     }
 }

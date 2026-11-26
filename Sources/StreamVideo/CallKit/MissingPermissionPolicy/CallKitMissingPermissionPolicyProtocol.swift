@@ -2,6 +2,8 @@
 // Copyright © 2026 Stream.io Inc. All rights reserved.
 //
 
+#if os(iOS) // SPIKE macOS: CallKit (CXProvider) and PushKit VoIP are iOS-only
+
 import Foundation
 
 /// Contract for handling CallKit calls when microphone permission is
@@ -14,3 +16,4 @@ protocol CallKitMissingPermissionPolicyProtocol {
     /// background).
     func reportCall() throws
 }
+#endif

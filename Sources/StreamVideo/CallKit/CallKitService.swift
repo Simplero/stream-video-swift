@@ -2,6 +2,8 @@
 // Copyright © 2026 Stream.io Inc. All rights reserved.
 //
 
+#if os(iOS) // SPIKE macOS: CallKit (CXProvider) and PushKit VoIP are iOS-only
+
 import AVFoundation
 import CallKit
 import Combine
@@ -1212,3 +1214,4 @@ extension InjectedValues {
         set { Self[CallKitService.self] = newValue }
     }
 }
+#endif

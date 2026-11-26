@@ -165,6 +165,10 @@ final class CameraInterruptionsHandler: StreamVideoCapturerActionHandler, @unche
             .default
             .publisher(for: interruptedNotification, object: session)
             .compactMap { (notification: Notification) -> String? in
+                #if os(macOS)
+                // SPIKE macOS: interruption reasons are iOS-only.
+                return notification.name.rawValue
+                #else
                 guard
                     let userInfo = notification.userInfo,
                     let reasonRawValue = userInfo[AVCaptureSessionInterruptionReasonKey] as? NSNumber,
@@ -173,6 +177,7 @@ final class CameraInterruptionsHandler: StreamVideoCapturerActionHandler, @unche
                     return nil
                 }
                 return reason.description
+                #endif
             }
             .log(.debug, subsystems: .webRTC) { "CameraCapture session was interrupted with reason: \($0)." }
             .receive(on: processingQueue)
@@ -404,6 +409,7 @@ final class CameraInterruptionsHandler: StreamVideoCapturerActionHandler, @unche
     }
 }
 
+#if os(iOS) // SPIKE macOS: InterruptionReason is iOS-only
 #if compiler(>=6.0)
 extension AVCaptureSession.InterruptionReason: @retroactive CustomStringConvertible {}
 #else
@@ -433,3 +439,4 @@ extension AVCaptureSession.InterruptionReason {
         }
     }
 }
+#endif

@@ -2,6 +2,8 @@
 // Copyright © 2026 Stream.io Inc. All rights reserved.
 //
 
+#if os(iOS) // SPIKE macOS: AVCaptureDevice.SystemPressureState is iOS-only
+
 import AVFoundation
 import Combine
 import Foundation
@@ -446,3 +448,4 @@ final class CameraSystemPressureHandler:
         }
     }
 }
+#endif

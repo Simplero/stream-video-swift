@@ -51,6 +51,7 @@ extension InjectedValues {
     }
 }
 
+#if !os(macOS) // macOS: mirrored in Utils/macOS/StreamWebRTC+macOS.swift
 extension RTCVideoRenderingBackend: @retroactive CustomStringConvertible {
     /// Debug-friendly description for logging.
     public var description: String {
@@ -82,6 +83,7 @@ extension RTCFrameBufferPolicy: @retroactive CustomStringConvertible {
         }
     }
 }
+#endif
 
 extension RTCVideoRotation: @retroactive CustomStringConvertible {
     /// Debug-friendly description for logging.

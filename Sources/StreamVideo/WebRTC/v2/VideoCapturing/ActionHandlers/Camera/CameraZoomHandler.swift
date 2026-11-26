@@ -45,6 +45,10 @@ final class CameraZoomHandler: StreamVideoCapturerActionHandler, @unchecked Send
         factor: CGFloat,
         captureSession: AVCaptureSession
     ) throws {
+        #if os(macOS)
+        // SPIKE macOS: AVCaptureDevice zoom is iOS-only.
+        throw ClientError("\(type(of: self)) zoom is not supported on macOS.")
+        #else
         guard
             let activeCaptureDevice = captureSession.activeVideoCaptureDevice,
             activeCaptureDevice.activeFormat.videoMaxZoomFactor > 1.0 // That ensures that the devices supports zoom.
@@ -56,5 +60,6 @@ final class CameraZoomHandler: StreamVideoCapturerActionHandler, @unchecked Send
         let zoomFactor = max(1.0, min(factor, activeCaptureDevice.activeFormat.videoMaxZoomFactor))
         activeCaptureDevice.videoZoomFactor = zoomFactor
         activeCaptureDevice.unlockForConfiguration()
+        #endif
     }
 }

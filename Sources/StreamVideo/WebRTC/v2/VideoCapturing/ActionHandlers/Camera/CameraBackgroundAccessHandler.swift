@@ -10,6 +10,10 @@ final class CameraBackgroundAccessHandler: StreamVideoCapturerActionHandler {
     // MARK: - StreamVideoCapturerActionHandler
 
     func handle(_ action: StreamVideoCapturer.Action) async throws {
+        #if os(macOS)
+        // Multitasking camera access is an iPadOS concept.
+        return
+        #else
         guard #available(iOS 16, *) else {
             return
         }
@@ -24,5 +28,6 @@ final class CameraBackgroundAccessHandler: StreamVideoCapturerActionHandler {
         default:
             break
         }
+        #endif
     }
 }

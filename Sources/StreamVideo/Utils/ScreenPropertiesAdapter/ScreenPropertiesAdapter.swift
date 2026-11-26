@@ -7,6 +7,8 @@
 import Foundation
 #if canImport(UIKit)
 import UIKit
+#elseif canImport(AppKit)
+import AppKit
 #endif
 
 public final class ScreenPropertiesAdapter: @unchecked Sendable {
@@ -20,12 +22,18 @@ public final class ScreenPropertiesAdapter: @unchecked Sendable {
             let maximumFramesPerSecond: Int
             #if canImport(UIKit)
             maximumFramesPerSecond = max(30, UIScreen.main.maximumFramesPerSecond)
+            #elseif canImport(AppKit)
+            maximumFramesPerSecond = max(30, NSScreen.main?.maximumFramesPerSecond ?? 60)
             #else
             maximumFramesPerSecond = 30
             #endif
             preferredFramesPerSecond = maximumFramesPerSecond
             refreshRate = 1.0 / Double(maximumFramesPerSecond)
+            #if canImport(UIKit)
             scale = UIScreen.main.scale
+            #elseif canImport(AppKit)
+            scale = NSScreen.main?.backingScaleFactor ?? 2
+            #endif
         }
     }
 }

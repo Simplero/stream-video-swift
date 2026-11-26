@@ -118,7 +118,12 @@ public final class CurrentDevice: @unchecked Sendable {
         currentDeviceProvider: @MainActor @escaping @Sendable () -> DeviceType
     ) {
         Task { @MainActor in
+            #if canImport(UIKit)
             self.systemVersion = UIDevice.current.systemVersion
+            #else
+            let v = ProcessInfo.processInfo.operatingSystemVersion
+            self.systemVersion = "\(v.majorVersion).\(v.minorVersion).\(v.patchVersion)"
+            #endif
             self.deviceType = currentDeviceProvider()
         }
     }

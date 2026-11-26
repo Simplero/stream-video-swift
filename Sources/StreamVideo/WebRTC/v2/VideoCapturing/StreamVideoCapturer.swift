@@ -117,11 +117,17 @@ final class StreamVideoCapturer: StreamVideoCapturing, @unchecked Sendable {
             CameraZoomHandler()
         ]
 
+        #if os(iOS)
         let systemPressureHandler = CameraSystemPressureHandler()
         if usesNewCapturingPipeline {
             actionHandlers.append(systemPressureHandler)
             actionHandlers.append(CameraCaptureSessionConfigurationHandler())
         }
+        #else
+        if usesNewCapturingPipeline {
+            actionHandlers.append(CameraCaptureSessionConfigurationHandler())
+        }
+        #endif
 
         let streamCapturer = StreamVideoCapturer(
             videoSource: videoSource,
@@ -146,6 +152,7 @@ final class StreamVideoCapturer: StreamVideoCapturing, @unchecked Sendable {
             }
         }
 
+        #if os(iOS)
         if usesNewCapturingPipeline {
             systemPressureHandler.actionDispatcher = { [weak streamCapturer] action in
                 guard let streamCapturer else { return }
@@ -159,6 +166,7 @@ final class StreamVideoCapturer: StreamVideoCapturing, @unchecked Sendable {
                 }
             }
         }
+        #endif
 
         return streamCapturer
         #endif
@@ -373,11 +381,15 @@ final class StreamVideoCapturer: StreamVideoCapturing, @unchecked Sendable {
     }
 
     func supportsBackgrounding() -> Bool {
+        #if os(iOS)
         if #available(iOS 16.0, *) {
             return videoCaptureSession?.isMultitaskingCameraAccessSupported ?? false
         } else {
             return false
         }
+        #else
+        return false
+        #endif
     }
 
     // MARK: - Actions

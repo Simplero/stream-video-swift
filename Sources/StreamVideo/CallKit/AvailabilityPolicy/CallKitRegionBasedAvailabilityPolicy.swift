@@ -2,6 +2,8 @@
 // Copyright © 2026 Stream.io Inc. All rights reserved.
 //
 
+#if os(iOS) // SPIKE macOS: CallKit (CXProvider) and PushKit VoIP are iOS-only
+
 import Foundation
 
 /// A policy implementation where CallKit availability depends on the region.
@@ -36,3 +38,4 @@ struct CallKitRegionBasedAvailabilityPolicy: CallKitAvailabilityPolicyProtocol {
         return !unavailableRegions.contains(identifier)
     }
 }
+#endif

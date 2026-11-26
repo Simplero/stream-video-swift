@@ -20,9 +20,15 @@ extension AVCaptureDevice: @retroactive @unchecked Sendable {}
 extension AVCapturePhotoOutput: @retroactive @unchecked Sendable {}
 extension AVCaptureVideoDataOutput: @retroactive @unchecked Sendable {}
 extension CMSampleBuffer: @retroactive @unchecked Sendable {}
+#if os(iOS)
 extension CXAnswerCallAction: @retroactive @unchecked Sendable {}
+#endif
+#if os(iOS)
 extension CXSetHeldCallAction: @retroactive @unchecked Sendable {}
+#endif
+#if os(iOS)
 extension CXSetMutedCallAction: @retroactive @unchecked Sendable {}
+#endif
 extension KeyPath: @retroactive @unchecked Sendable {}
 extension RTCIceCandidate: @retroactive @unchecked Sendable {}
 extension RTCMediaStreamTrack: @retroactive @unchecked Sendable {}
@@ -38,16 +44,24 @@ extension RTCVideoSource: @retroactive @unchecked Sendable {}
 /// Allows audio buffers to cross concurrency boundaries.
 extension AVAudioPCMBuffer: @retroactive @unchecked Sendable {}
 extension AVCaptureDevice.Format: @retroactive @unchecked Sendable {}
+#if os(iOS)
 extension AVCaptureDevice.SystemPressureState: @retroactive @unchecked Sendable {}
+#endif
 #else
 extension AnyCancellable: @unchecked Sendable {}
 extension AVCaptureDevice: @unchecked Sendable {}
 extension AVCapturePhotoOutput: @unchecked Sendable {}
 extension AVCaptureVideoDataOutput: @unchecked Sendable {}
 extension CMSampleBuffer: @unchecked Sendable {}
+#if os(iOS)
 extension CXAnswerCallAction: @unchecked Sendable {}
+#endif
+#if os(iOS)
 extension CXSetHeldCallAction: @unchecked Sendable {}
+#endif
+#if os(iOS)
 extension CXSetMutedCallAction: @unchecked Sendable {}
+#endif
 extension KeyPath: @unchecked Sendable {}
 extension Notification: @unchecked Sendable {}
 extension RTCIceCandidate: @unchecked Sendable {}
@@ -66,5 +80,7 @@ extension AVAudioPCMBuffer: @unchecked Sendable {}
 extension CIContext: @unchecked Sendable {}
 extension CIImage: @unchecked Sendable {}
 extension AVCaptureDevice.Format: @unchecked Sendable {}
+#if os(iOS)
 extension AVCaptureDevice.SystemPressureState: @unchecked Sendable {}
+#endif
 #endif

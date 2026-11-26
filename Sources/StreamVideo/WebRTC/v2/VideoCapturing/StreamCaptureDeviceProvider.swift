@@ -70,6 +70,7 @@ extension InjectedValues {
     }
 }
 
+#if os(iOS) // SPIKE macOS: SystemPressureState is iOS-only
 /// A provider that supplies capture devices for system pressure monitoring.
 protocol SystemPressureCaptureDeviceProviding {
     /// Returns a capture device for system pressure monitoring.
@@ -114,3 +115,4 @@ extension InjectedValues {
         set { Self[SystemPressureCaptureDeviceProviderKey.self] = newValue }
     }
 }
+#endif

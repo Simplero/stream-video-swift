@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "StreamVideo",
     defaultLocalization: "en",
-    platforms: [.iOS(.v13)],
+    platforms: [.iOS(.v13), .macOS(.v14)],
     products: [
         .library(
             name: "StreamVideo",

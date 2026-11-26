@@ -8,7 +8,11 @@ import Foundation
 import StreamWebRTC
 
 final class SimulatorScreenCapturer: RTCVideoCapturer, @unchecked Sendable {
+    #if os(macOS)
+    private var displayLink: Timer?
+    #else
     private var displayLink: CADisplayLink?
+    #endif
     private var videoURL: URL
     private let queue = DispatchQueue(label: "org.webrtc.RTCFileVideoCapturer")
     private var assetReader: AVAssetReader?
@@ -35,12 +39,25 @@ final class SimulatorScreenCapturer: RTCVideoCapturer, @unchecked Sendable {
         queue.async { [weak self] in
             guard let self else { return }
             self.setupAssetReader()
+            #if os(macOS)
+            // SPIKE macOS: CADisplayLink(target:selector:) is iOS-only.
+            let timer = Timer(
+                timeInterval: 1.0 / 30.0,
+                target: self,
+                selector: #selector(self.readFrame),
+                userInfo: nil,
+                repeats: true
+            )
+            RunLoop.main.add(timer, forMode: .common)
+            self.displayLink = timer
+            #else
             self.displayLink = CADisplayLink(
                 target: self,
                 selector: #selector(self.readFrame)
             )
             self.displayLink?.preferredFramesPerSecond = 30 // Assuming 30 fps video
             self.displayLink?.add(to: .main, forMode: .common)
+            #endif
         }
     }
 
