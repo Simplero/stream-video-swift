@@ -116,6 +116,11 @@ final class StreamVideoCapturerFactory: VideoCapturerProviding {
                 with: source,
                 audioDeviceModule: audioDeviceModule
             )
+        case .external:
+            return StreamVideoCapturer.externalScreenShareCapturer(
+                with: source,
+                audioDeviceModule: audioDeviceModule
+            )
         }
     }
 }

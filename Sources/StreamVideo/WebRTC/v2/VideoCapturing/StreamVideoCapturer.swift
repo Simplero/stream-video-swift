@@ -215,6 +215,23 @@ final class StreamVideoCapturer: StreamVideoCapturing, @unchecked Sendable {
         )
     }
 
+    /// Creates a capturer whose frames come from the app through
+    /// ``ExternalScreenShareSource/shared``.
+    static func externalScreenShareCapturer(
+        with videoSource: RTCVideoSource,
+        audioDeviceModule: AudioDeviceModule
+    ) -> StreamVideoCapturer {
+        .init(
+            videoSource: videoSource,
+            videoCapturer: RTCVideoCapturer(delegate: videoSource),
+            videoCapturerDelegate: videoSource,
+            audioDeviceModule: audioDeviceModule,
+            actionHandlers: [
+                ExternalScreenShareCaptureHandler(source: .shared)
+            ]
+        )
+    }
+
     // MARK: - Nested Types
 
     enum Action: @unchecked Sendable, CustomStringConvertible {

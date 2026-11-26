@@ -15,4 +15,7 @@ public enum ScreensharingType: Sendable {
     case inApp
     /// Screensharing even when the app is in background.
     case broadcast
+    /// The app captures the frames itself (for example with ScreenCaptureKit
+    /// on macOS) and hands them to ``ExternalScreenShareSource/shared``.
+    case external
 }
